@@ -16,15 +16,15 @@ read -p 'db_root_password [secretpasswd]: ' db_root_password
 echo
 
 # Update system
-sudo apt-get update -y
+apt-get update -y
 
 ## Install APache
 sudo apt-get install apache2 apache2-utils -y
-sudo systemctl start apache2
-sudo systemctl enable apache2
+systemctl start apache2
+systemctl enable apache2
 
 ## Install PHP
-sudo apt-get install php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-cli php7.0-cgi php7.0-gd -y
+apt-get install php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-cli php7.0-cgi php7.0-gd -y
 
 # Install MySQL database server
 export DEBIAN_FRONTEND="noninteractive"
@@ -35,11 +35,11 @@ apt-get install mysql-server mysql-client -y
 ## Install Latest WordPress
 wget -c http://wordpress.org/latest.tar.gz
 tar -xzvf latest.tar.gz
-sudo rsync -av wordpress/* /var/www/html/
+rsync -av wordpress/* /var/www/html/
 
 # Set Permissions
-sudo chown -R www-data:www-data /var/www/html/
-sudo chmod -R 755 /var/www/html/
+chown -R www-data:www-data /var/www/html/
+chmod -R 755 /var/www/html/
 
 ## Configure WordPress Database
 mysql -uroot -p$db_root_password <<QUERY_INPUT
@@ -49,15 +49,23 @@ FLUSH PRIVILEGES;
 EXIT
 QUERY_INPUT
 
+## Add Database Credentias in wordpress
+cd /var/www/html/
+sudo mv wp-config-sample.php wp-config.php
+perl -pi -e "s/database_name_here/$wordpress_db_name/g" wp-config.php
+perl -pi -e "s/username_here/root/g" wp-config.php
+perl -pi -e "s/password_here/$db_root_password/g" wp-config.php
+
 # Enabling Mod Rewrite
-sudo a2enmod rewrite
-sudo php5enmod mcrypt
+a2enmod rewrite
+php5enmod mcrypt
 
 ## Install PhpMyAdmin
-sudo apt-get install phpmyadmin -y
+apt-get install phpmyadmin -y
 
 ## Configure PhpMyAdmin
 echo 'Include /etc/phpmyadmin/apache.conf' >> /etc/apache2/apache2.conf
 
-# Restart Apache
-sudo service apache2 restart
+# Restart Apache and Mysql
+service apache2 restart
+service mysql restart
