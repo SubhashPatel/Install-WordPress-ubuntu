@@ -33,6 +33,7 @@ debconf-set-selections <<< "mysql-server mysql-server/root_password_again passwo
 apt-get install mysql-server mysql-client -y
 
 ## Install Latest WordPress
+rm /var/www/html/index.*
 wget -c http://wordpress.org/latest.tar.gz
 tar -xzvf latest.tar.gz
 rsync -av wordpress/* /var/www/html/
