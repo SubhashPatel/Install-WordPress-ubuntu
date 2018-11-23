@@ -10,6 +10,9 @@ if [ "$(id -u)" != "0" ]; then
    exit 1
 fi
 
+## check Current directory
+pwd=$(pwd)
+
 # Ask value for mysql root password 
 read -p 'wordpress_db_name [wp_db]: ' wordpress_db_name
 read -p 'db_root_password [secretpasswd]: ' db_root_password
@@ -57,7 +60,7 @@ perl -pi -e "s/database_name_here/$wordpress_db_name/g" wp-config.php
 perl -pi -e "s/username_here/root/g" wp-config.php
 perl -pi -e "s/password_here/$db_root_password/g" wp-config.php
 
-# Enabling Mod Rewrite
+## Enabling Mod Rewrite
 a2enmod rewrite
 php5enmod mcrypt
 
@@ -67,6 +70,12 @@ apt-get install phpmyadmin -y
 ## Configure PhpMyAdmin
 echo 'Include /etc/phpmyadmin/apache.conf' >> /etc/apache2/apache2.conf
 
-# Restart Apache and Mysql
+## Restart Apache and Mysql
 service apache2 restart
 service mysql restart
+
+## Cleaning Download
+cd $pwd
+rm -rf latest.tar.gz wordpress
+
+echo "Installation is complete."
