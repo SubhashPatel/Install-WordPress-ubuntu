@@ -27,7 +27,7 @@ systemctl start apache2
 systemctl enable apache2
 
 ## Install PHP
-apt-get install php7.0 php7.0-mysql libapache2-mod-php7.0 php7.0-cli php7.0-cgi php7.0-gd -y
+apt-get install php libapache2-mod-php php-mysql -y
 
 # Install MySQL database server
 export DEBIAN_FRONTEND="noninteractive"
