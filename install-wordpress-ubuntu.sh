@@ -2,7 +2,8 @@
 
 #######################################
 # Bash script to install WordPress on ubuntu
-# Author: Subhash (serverkaka.com)
+# Tested in Ubuntu 16.04 and Higher
+ Author: Subhash (serverkaka.com)
 
 # Check if running as root
 if [ "$(id -u)" != "0" ]; then
