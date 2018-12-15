@@ -15,7 +15,7 @@ pwd=$(pwd)
 
 # Ask value for mysql root password 
 read -p 'wordpress_db_name [wp_db]: ' wordpress_db_name
-read -p 'db_root_password [secretpasswd]: ' db_root_password
+read -p 'db_root_password [only-alphanumeric]: ' db_root_password
 echo
 
 # Update system
