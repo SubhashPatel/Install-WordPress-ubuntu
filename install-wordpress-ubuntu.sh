@@ -5,7 +5,7 @@
 # Tested in Ubuntu 16.04 and Higher
  Author: Subhash (serverkaka.com)
 
-# Check if running as root
+## Check if running as root
 if [ "$(id -u)" != "0" ]; then
    echo "This script must be run as root" 1>&2
    exit 1
@@ -14,12 +14,12 @@ fi
 ## check Current directory
 pwd=$(pwd)
 
-# Ask value for mysql root password 
+## Ask value for mysql root password 
 read -p 'wordpress_db_name [wp_db]: ' wordpress_db_name
 read -p 'db_root_password [only-alphanumeric]: ' db_root_password
 echo
 
-# Update system
+## Update system
 apt-get update -y
 
 ## Install APache
@@ -42,7 +42,7 @@ wget -c http://wordpress.org/latest.tar.gz
 tar -xzvf latest.tar.gz
 rsync -av wordpress/* /var/www/html/
 
-# Set Permissions
+## Set Permissions
 chown -R www-data:www-data /var/www/html/
 chmod -R 755 /var/www/html/
 
